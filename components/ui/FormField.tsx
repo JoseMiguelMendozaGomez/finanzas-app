@@ -14,6 +14,8 @@ interface FormFieldProps {
   autoComplete?: string;
   /** Slot derecho junto al label */
   labelSuffix?: React.ReactNode;
+  /** Mensaje de error — activa estilos de error */
+  error?: string;
 }
 
 export default function FormField({
@@ -23,6 +25,7 @@ export default function FormField({
   placeholder,
   autoComplete,
   labelSuffix,
+  error,
 }: FormFieldProps) {
   return (
     <Input
@@ -32,6 +35,7 @@ export default function FormField({
       placeholder={placeholder}
       autoComplete={autoComplete}
       labelSuffix={labelSuffix}
+      error={error}
       theme="dark"
     />
   );
