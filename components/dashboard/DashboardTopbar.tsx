@@ -1,8 +1,15 @@
+import { getInitial } from "@/lib/utils/format";
+import type { DashboardUser } from "@/components/dashboard/types";
+
 interface DashboardTopbarProps {
   onMenuClick: () => void;
+  user?: DashboardUser;
 }
 
-export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {
+export default function DashboardTopbar({
+  onMenuClick,
+  user,
+}: DashboardTopbarProps) {
   return (
     <header className="h-14 bg-white border-b border-slate-100 flex items-center px-4 sm:px-6 gap-3 sticky top-0 z-20">
       {/* Botón hamburguesa — solo mobile */}
@@ -64,10 +71,12 @@ export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {
         {/* Avatar de usuario */}
         <div className="flex items-center gap-2.5 pl-1">
           <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-sm shrink-0">
-            <span className="text-white text-xs font-bold">U</span>
+            <span className="text-white text-xs font-bold">
+              {getInitial(user?.name, user?.email)}
+            </span>
           </div>
           <span className="text-slate-700 text-sm font-medium hidden sm:block">
-            Usuario
+            {user?.name || user?.email || "Usuario"}
           </span>
         </div>
       </div>
