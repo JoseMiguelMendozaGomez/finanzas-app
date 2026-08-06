@@ -8,7 +8,9 @@ export default defineConfig({
   migrations: {
     path: "prisma/migrations",
   },
+  // El CLI (migraciones, db push, studio) usa la conexión directa a Postgres.
+  // El cliente en runtime (lib/prisma/client.ts) usa DATABASE_URL (pooled) por separado.
   datasource: {
-    url: process.env["DATABASE_URL"],
+    url: process.env["DIRECT_URL"],
   },
 });
