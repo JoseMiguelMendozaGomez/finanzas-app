@@ -4,10 +4,11 @@ import { auth } from "@/lib/auth/config";
 const PROTECTED_PREFIXES = [
   "/dashboard",
   "/home",
-  "/transacciones",
+  "/resumen",
   "/categorias",
   "/metas",
   "/recordatorios",
+  "/reportes",
   "/perfil",
 ];
 

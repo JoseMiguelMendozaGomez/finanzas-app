@@ -28,14 +28,16 @@ enum RecurrenceFrequency {
 }
 
 model User {
-  id             String    @id @default(cuid())
-  name           String?
-  email          String    @unique
-  emailVerified  DateTime?
-  image          String?
-  hashedPassword String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id                  String    @id @default(cuid())
+  name                String?
+  email               String    @unique
+  emailVerified       DateTime?
+  image               String?
+  hashedPassword      String?
+  failedLoginAttempts Int       @default(0)
+  lockedUntil         DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
   accounts     Account[]
   sessions     Session[]
@@ -107,6 +109,10 @@ model Transaction {
   date                DateTime
   isRecurring         Boolean              @default(false)
   recurrenceFrequency RecurrenceFrequency?
+  /// Fechas de ocurrencias recurrentes que fueron editadas individualmente
+  /// (se excluyen de la proyección porque ya existe una transacción real
+  /// independiente para ese día — ver editOccurrenceAmountAction).
+  excludedDates       DateTime[]           @default([])
   userId              String
   categoryId          String
   createdAt           DateTime             @default(now())

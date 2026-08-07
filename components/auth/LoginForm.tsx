@@ -42,6 +42,17 @@ export default function LoginForm() {
           }
         />
 
+        <label className="flex items-center gap-2.5 cursor-pointer w-fit">
+          <input
+            type="checkbox"
+            name="rememberMe"
+            className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+          />
+          <span className="text-sm text-slate-600">
+            Recordarme en este dispositivo
+          </span>
+        </label>
+
         {state.message && (
           <p className="text-sm text-red-600" role="alert">
             {state.message}

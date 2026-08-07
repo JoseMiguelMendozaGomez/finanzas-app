@@ -38,7 +38,7 @@ export default function RegisterForm() {
           id="password"
           label="Contraseña"
           type="password"
-          placeholder="Mínimo 8 caracteres"
+          placeholder="Mínimo 8 caracteres, con letra y número"
           autoComplete="new-password"
           error={state.errors?.password?.[0]}
         />

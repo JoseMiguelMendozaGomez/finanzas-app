@@ -77,10 +77,29 @@ export async function loginAction(
     return { errors: parsed.error.flatten().fieldErrors };
   }
 
+  const rememberMe = formData.get("rememberMe") === "on";
+
+  // Chequeo informativo (solo lectura) para dar un mensaje específico —
+  // el incremento/bloqueo real de intentos vive en authorize() para no
+  // duplicar la lógica de escritura.
+  const existing = await prisma.user.findUnique({
+    where: { email: parsed.data.email },
+    select: { lockedUntil: true },
+  });
+  if (existing?.lockedUntil && existing.lockedUntil > new Date()) {
+    const minutesLeft = Math.ceil(
+      (existing.lockedUntil.getTime() - Date.now()) / 60000
+    );
+    return {
+      message: `Cuenta bloqueada temporalmente por demasiados intentos fallidos. Intenta de nuevo en ${minutesLeft} minuto${minutesLeft === 1 ? "" : "s"}.`,
+    };
+  }
+
   try {
     await signIn("credentials", {
       email: parsed.data.email,
       password: parsed.data.password,
+      rememberMe: rememberMe ? "true" : "false",
       redirectTo: "/home",
     });
   } catch (error) {

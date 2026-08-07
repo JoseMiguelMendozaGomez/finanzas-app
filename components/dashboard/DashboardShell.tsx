@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import DashboardTopbar from "@/components/dashboard/DashboardTopbar";
+import IdleLogoutWatcher from "@/components/dashboard/IdleLogoutWatcher";
 import type { DashboardUser } from "@/components/dashboard/types";
 
 interface DashboardShellProps {
@@ -22,6 +23,7 @@ export default function DashboardShell({
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden">
+      <IdleLogoutWatcher />
       {/* Sidebar */}
       <Sidebar
         mobileOpen={mobileOpen}

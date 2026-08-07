@@ -6,10 +6,15 @@ declare module "next-auth" {
       id: string;
     } & DefaultSession["user"];
   }
+
+  interface User {
+    rememberMe?: boolean;
+  }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     id?: string;
+    rememberMe?: boolean;
   }
 }
