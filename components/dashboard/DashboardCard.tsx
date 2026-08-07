@@ -6,6 +6,8 @@ interface DashboardCardProps {
   value: string;
   icon: React.ReactNode;
   color: CardColor;
+  /** Si se pasa, la card se vuelve clickeable y oculta el badge "Próximamente" */
+  onClick?: () => void;
 }
 
 const colorMap: Record<CardColor, { icon: string; badge: string; value: string }> = {
@@ -37,11 +39,21 @@ export default function DashboardCard({
   value,
   icon,
   color,
+  onClick,
 }: DashboardCardProps) {
   const c = colorMap[color];
+  const Tag = onClick ? "button" : "div";
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col gap-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+    <Tag
+      type={onClick ? "button" : undefined}
+      onClick={onClick}
+      className={`bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col gap-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 text-left w-full ${
+        onClick
+          ? "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+          : ""
+      }`}
+    >
       {/* Cabecera: ícono + badge "Próximamente" */}
       <div className="flex items-start justify-between">
         <div
@@ -49,11 +61,13 @@ export default function DashboardCard({
         >
           {icon}
         </div>
-        <span
-          className={`text-xs font-medium px-2.5 py-1 rounded-full border ${c.badge}`}
-        >
-          Próximamente
-        </span>
+        {!onClick && (
+          <span
+            className={`text-xs font-medium px-2.5 py-1 rounded-full border ${c.badge}`}
+          >
+            Próximamente
+          </span>
+        )}
       </div>
 
       {/* Valor */}
@@ -64,6 +78,6 @@ export default function DashboardCard({
 
       {/* Descripción */}
       <p className="text-slate-500 text-sm leading-relaxed">{description}</p>
-    </div>
+    </Tag>
   );
 }
