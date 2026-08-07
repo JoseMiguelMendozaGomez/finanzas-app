@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import AppLogo from "@/components/ui/AppLogo";
+import UserAvatarImage from "@/components/ui/UserAvatarImage";
 import NavIcon from "@/components/dashboard/NavIcon";
 import { NAV_ITEMS } from "@/components/dashboard/nav-items";
-import { getInitial } from "@/lib/utils/format";
 import type { DashboardUser } from "@/components/dashboard/types";
 import { logoutAction } from "@/features/auth/actions";
 
@@ -71,11 +71,13 @@ export default function Sidebar({ mobileOpen, onClose, user }: SidebarProps) {
       {/* Footer del sidebar */}
       <div className="px-4 py-4 border-t border-slate-100">
         <div className="flex items-center gap-3 px-2 py-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shrink-0 shadow-sm">
-            <span className="text-white text-xs font-bold">
-              {getInitial(user?.name, user?.email)}
-            </span>
-          </div>
+          <UserAvatarImage
+            userId={user?.id}
+            name={user?.name}
+            email={user?.email}
+            avatarUpdatedAt={user?.avatarUpdatedAt}
+            size="sm"
+          />
           <div className="min-w-0">
             <p className="text-sm font-semibold text-slate-800 truncate">
               {user?.name || "Usuario"}

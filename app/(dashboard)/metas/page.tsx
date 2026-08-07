@@ -5,7 +5,7 @@ import { getGoals } from "@/features/goals/queries";
 import GoalsView from "@/components/dashboard/goals/GoalsView";
 
 export const metadata: Metadata = {
-  title: "Metas de ahorro — Finanzas App",
+  title: "Metas de ahorro — Inverza",
   description: "Define y sigue el progreso de tus objetivos de ahorro.",
 };
 

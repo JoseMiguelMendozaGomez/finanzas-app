@@ -68,7 +68,7 @@ export default function ReportsView({ transactions }: ReportsViewProps) {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Finanzas App"
+        eyebrow="Inverza"
         title="Reportes"
         description="Gráficos para entender en qué gastas y de dónde vienen tus ingresos."
       />

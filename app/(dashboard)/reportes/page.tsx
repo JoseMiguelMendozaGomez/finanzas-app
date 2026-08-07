@@ -5,7 +5,7 @@ import { getAllTransactions } from "@/features/transactions/queries";
 import ReportsView from "@/components/dashboard/reports/ReportsView";
 
 export const metadata: Metadata = {
-  title: "Reportes — Finanzas App",
+  title: "Reportes — Inverza",
   description: "Gráficos de tus ingresos y gastos.",
 };
 

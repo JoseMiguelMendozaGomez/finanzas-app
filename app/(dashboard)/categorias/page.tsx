@@ -5,7 +5,7 @@ import { getAllCategoriesWithCounts } from "@/features/transactions/queries";
 import CategoriesView from "@/components/dashboard/categorias/CategoriesView";
 
 export const metadata: Metadata = {
-  title: "Categorías — Finanzas App",
+  title: "Categorías — Inverza",
   description: "Organiza tus transacciones por categorías personalizadas.",
 };
 

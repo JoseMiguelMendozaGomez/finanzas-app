@@ -2,24 +2,29 @@
 
 import { useActionState, useState } from "react";
 import { PageHeader, Input } from "@/components/ui";
-import { getInitial } from "@/lib/utils/format";
 import {
   updateProfileAction,
   type ActionState,
 } from "@/features/profile/actions";
+import AvatarUploader from "./AvatarUploader";
+import ChangePasswordForm from "./ChangePasswordForm";
 
 interface ProfileViewProps {
+  userId: string;
   name: string | null;
   email: string;
   memberSince: Date;
+  avatarUpdatedAt?: number;
 }
 
 const initialState: ActionState = {};
 
 export default function ProfileView({
+  userId,
   name,
   email,
   memberSince,
+  avatarUpdatedAt,
 }: ProfileViewProps) {
   const [state, formAction, isPending] = useActionState(
     updateProfileAction,
@@ -32,18 +37,19 @@ export default function ProfileView({
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Finanzas App"
+        eyebrow="Inverza"
         title="Perfil"
         description="Tu cuenta y cómo queres que te llamemos."
       />
 
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8 space-y-6">
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shrink-0 shadow-sm">
-            <span className="text-white text-2xl font-bold">
-              {getInitial(savedName, email)}
-            </span>
-          </div>
+        <div className="flex items-center gap-4 flex-wrap">
+          <AvatarUploader
+            userId={userId}
+            name={savedName}
+            email={email}
+            avatarUpdatedAt={avatarUpdatedAt}
+          />
           <div className="min-w-0">
             <p className="text-base font-semibold text-slate-900 truncate">
               {savedName || "Sin nombre"}
@@ -98,6 +104,8 @@ export default function ProfileView({
           </p>
         </div>
       </div>
+
+      <ChangePasswordForm />
     </div>
   );
 }

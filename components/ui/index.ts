@@ -17,6 +17,7 @@ export { default as EmptyState } from "./EmptyState";
 export { default as FormField }  from "./FormField";
 export { default as Input }      from "./Input";
 export { default as PageHeader } from "./PageHeader";
+export { default as UserAvatarImage } from "./UserAvatarImage";
 
 // Re-export de tipos para uso externo
 export type { BadgeColor, BadgeSize, BadgeVariant }      from "./Badge";

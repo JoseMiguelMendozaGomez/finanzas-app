@@ -5,7 +5,7 @@ import { getProfile } from "@/features/profile/queries";
 import ProfileView from "@/components/dashboard/perfil/ProfileView";
 
 export const metadata: Metadata = {
-  title: "Perfil — Finanzas App",
+  title: "Perfil — Inverza",
   description: "Administra tu cuenta y preferencias.",
 };
 
@@ -18,9 +18,11 @@ export default async function PerfilPage() {
 
   return (
     <ProfileView
+      userId={session.user.id}
       name={profile.name}
       email={profile.email}
       memberSince={profile.createdAt}
+      avatarUpdatedAt={profile.avatar?.updatedAt.getTime()}
     />
   );
 }

@@ -28,7 +28,7 @@ export default function GoalsView({ goals }: GoalsViewProps) {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Finanzas App"
+        eyebrow="Inverza"
         title="Metas de ahorro"
         description="Define objetivos y sigue tu progreso hacia ellos."
         actions={[

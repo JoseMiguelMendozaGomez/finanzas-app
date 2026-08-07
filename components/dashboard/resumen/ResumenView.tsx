@@ -39,7 +39,7 @@ export default function ResumenView({ transactions }: ResumenViewProps) {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Finanzas App"
+        eyebrow="Inverza"
         title="Resumen"
         description="Vista de calendario de todos tus ingresos y gastos."
       />

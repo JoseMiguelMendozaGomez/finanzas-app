@@ -85,7 +85,7 @@ export default function DashboardHome({
     <div className="space-y-8">
       {/* Header con saludo personalizado */}
       <PageHeader
-        eyebrow="Finanzas App"
+        eyebrow="Inverza"
         title={`${greeting}${userName ? `, ${userName}` : ""}`}
         description="Resumen general de tu situación financiera personal."
       />

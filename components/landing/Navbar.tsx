@@ -9,7 +9,7 @@ export default function Navbar() {
         <Link
           href="/"
           className="flex items-center gap-2 group min-w-0"
-          aria-label="Finanzas App — inicio"
+          aria-label="Inverza — inicio"
         >
           <div className="w-8 h-8 shrink-0 bg-blue-500 rounded-lg flex items-center justify-center shadow-md group-hover:bg-blue-400 transition-colors duration-200">
             <svg
@@ -28,7 +28,7 @@ export default function Navbar() {
             </svg>
           </div>
           <span className="hidden sm:inline text-slate-900 font-bold text-lg tracking-tight truncate">
-            Finanzas App
+            Inverza
           </span>
         </Link>
 

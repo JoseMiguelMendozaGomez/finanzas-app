@@ -1,7 +1,5 @@
-import {
-  isHiddenRecurrenceTemplate,
-  type getAllTransactions,
-} from "@/features/transactions/queries";
+import type { getAllTransactions } from "@/features/transactions/queries";
+import { isHiddenRecurrenceTemplate } from "@/features/transactions/recurrence";
 
 type Transactions = Awaited<ReturnType<typeof getAllTransactions>>;
 type TxType = "INCOME" | "EXPENSE";

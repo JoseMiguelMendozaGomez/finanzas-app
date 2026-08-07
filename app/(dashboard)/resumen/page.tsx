@@ -5,7 +5,7 @@ import { getAllTransactions } from "@/features/transactions/queries";
 import ResumenView from "@/components/dashboard/resumen/ResumenView";
 
 export const metadata: Metadata = {
-  title: "Resumen — Finanzas App",
+  title: "Resumen — Inverza",
   description: "Calendario de ingresos y gastos con balance del mes.",
 };
 

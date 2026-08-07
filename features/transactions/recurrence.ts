@@ -11,6 +11,26 @@ export interface MonthOccurrence {
   projected: boolean;
 }
 
+/**
+ * Una transacción recurrente cuya propia fecha de origen fue editada de
+ * forma individual (ver editOccurrenceAmountAction) sigue existiendo como
+ * "plantilla" para proyectar los meses siguientes, pero esa ocurrencia
+ * puntual ya la representa una transacción real independiente — por eso no
+ * debe listarse dos veces en el historial plano.
+ *
+ * Vive acá (y no en queries.ts) porque este archivo no importa nada del
+ * lado servidor — así lo pueden usar tanto Server como Client Components
+ * (ej. features/reports/aggregate.ts, usado desde ReportsView) sin arrastrar
+ * el cliente de Prisma/pg al bundle del navegador.
+ */
+export function isHiddenRecurrenceTemplate<
+  T extends { isRecurring: boolean; date: Date; excludedDates: Date[] },
+>(t: T): boolean {
+  if (!t.isRecurring) return false;
+  const originTime = t.date.getTime();
+  return t.excludedDates.some((d) => d.getTime() === originTime);
+}
+
 const MAX_ITERATIONS = 500;
 
 function addPeriod(date: Date, frequency: string): Date {

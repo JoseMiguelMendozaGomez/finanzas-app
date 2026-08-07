@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { PageHeader, Input, CategoryIcon } from "@/components/ui";
 import {
   createTransactionAction,
@@ -17,6 +17,14 @@ import type {
   getTransactionsByType,
 } from "@/features/transactions/queries";
 import EditTransactionRow from "./EditTransactionRow";
+import {
+  queueTransaction,
+  getQueuedTransactions,
+  removeQueuedTransaction,
+  type QueuedTransaction,
+} from "@/lib/offline/db";
+import { QUEUE_CHANGED_EVENT } from "@/lib/offline/events";
+import { useOnlineStatus } from "@/lib/offline/useOnlineStatus";
 
 const FREQUENCY_LABELS: Record<string, string> = {
   WEEKLY: "Semanal",
@@ -86,6 +94,67 @@ export default function TransactionView({
   );
   const [isRecurring, setIsRecurring] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const isOnline = useOnlineStatus();
+  const [pending, setPending] = useState<QueuedTransaction[]>([]);
+  const [offlineError, setOfflineError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      const all = await getQueuedTransactions();
+      if (!cancelled) setPending(all.filter((p) => p.type === type));
+    }
+    load();
+    window.addEventListener(QUEUE_CHANGED_EVENT, load);
+    return () => {
+      cancelled = true;
+      window.removeEventListener(QUEUE_CHANGED_EVENT, load);
+    };
+  }, [type]);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    if (isOnline) return; // el <form action> normal se encarga
+
+    e.preventDefault();
+    setOfflineError(null);
+
+    if (!selection || selection.mode !== "existing") {
+      setOfflineError(
+        "Sin conexión no se pueden crear categorías nuevas — elegí una que ya exista."
+      );
+      return;
+    }
+
+    const formEl = e.currentTarget;
+    const fd = new FormData(formEl);
+    const amount = String(fd.get("amount") ?? "").trim();
+    const date = String(fd.get("date") ?? "").trim();
+    if (!amount || !date) {
+      setOfflineError("Completá el monto y la fecha.");
+      return;
+    }
+
+    const category = categories.find((c) => c.id === selection.categoryId);
+
+    await queueTransaction({
+      type,
+      amount,
+      date,
+      description: String(fd.get("description") ?? ""),
+      categoryId: selection.categoryId,
+      categoryName: category?.name ?? "Categoría",
+      categoryIcon: category?.icon ?? null,
+      isRecurring,
+      recurrenceFrequency: isRecurring
+        ? String(fd.get("recurrenceFrequency") ?? "")
+        : undefined,
+    });
+
+    formEl.reset();
+    setSelection(null);
+    setIsRecurring(false);
+  }
 
   return (
     <div className="space-y-8">
@@ -101,7 +170,7 @@ export default function TransactionView({
           </svg>
         </button>
         <PageHeader
-          eyebrow="Finanzas App"
+          eyebrow="Inverza"
           title={copy.title}
           description={`Total registrado: $${total.toFixed(2)}`}
         />
@@ -109,9 +178,18 @@ export default function TransactionView({
 
       {/* Formulario */}
       <form
+        ref={formRef}
         action={formAction}
+        onSubmit={handleSubmit}
         className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8 space-y-6"
       >
+        {!isOnline && (
+          <div className="flex items-center gap-2 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+            Sin conexión: esto se guarda en el celular y se sube solo cuando
+            vuelva la señal. No se pueden crear categorías nuevas offline.
+          </div>
+        )}
         <input
           type="hidden"
           name="categoryId"
@@ -192,7 +270,9 @@ export default function TransactionView({
             <button
               type="button"
               onClick={() => setCustomOpen((v) => !v)}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border border-dashed text-sm font-medium transition-colors ${
+              disabled={!isOnline}
+              title={!isOnline ? "Necesitás conexión para crear categorías" : undefined}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border border-dashed text-sm font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${
                 customOpen
                   ? "bg-blue-50 border-blue-300 text-blue-700"
                   : "bg-white border-slate-300 text-slate-500 hover:bg-slate-50"
@@ -265,6 +345,11 @@ export default function TransactionView({
           {state.errors?.categoryId && (
             <p className="text-xs text-red-600 mt-1.5">
               {state.errors.categoryId[0]}
+            </p>
+          )}
+          {offlineError && (
+            <p className="text-xs text-red-600 mt-1.5" role="alert">
+              {offlineError}
             </p>
           )}
         </div>
@@ -352,7 +437,11 @@ export default function TransactionView({
           disabled={isPending}
           className="py-2.5 px-6 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold rounded-xl transition-all duration-200 shadow-sm hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {isPending ? copy.submitPending : copy.submitLabel}
+          {isPending
+            ? copy.submitPending
+            : isOnline
+              ? copy.submitLabel
+              : "Guardar sin conexión"}
         </button>
       </form>
 
@@ -362,10 +451,60 @@ export default function TransactionView({
           Historial de {type === "INCOME" ? "ingresos" : "gastos"}
         </h2>
 
-        {transactions.length === 0 ? (
+        {pending.length === 0 && transactions.length === 0 ? (
           <p className="text-sm text-slate-500">{copy.emptyList}</p>
         ) : (
           <ul className="divide-y divide-slate-100">
+            {pending.map((p) => (
+              <li
+                key={p.localId}
+                className="py-3.5 flex items-center justify-between gap-4"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div
+                    className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${copy.iconBg} opacity-70`}
+                  >
+                    <CategoryIcon
+                      name={(p.categoryIcon as CategoryIconName) ?? "other"}
+                      className="w-4 h-4"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-slate-800 truncate">
+                      {p.categoryName}
+                      <span className="ml-2 text-xs font-medium text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">
+                        Pendiente de sincronizar
+                      </span>
+                    </p>
+                    <p className="text-xs text-slate-400">
+                      {new Date(p.date).toLocaleDateString("es-PA", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        timeZone: "UTC",
+                      })}
+                      {p.description ? ` · ${p.description}` : ""}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className={`text-sm font-semibold ${copy.amountColor} opacity-70`}>
+                    {copy.sign}${Number(p.amount.replace(",", ".")).toFixed(2)}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => removeQueuedTransaction(p.localId)}
+                    className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+                    aria-label="Cancelar (no sincronizar)"
+                    title="Cancelar — no se va a subir"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </li>
+            ))}
             {transactions.map((t) =>
               editingId === t.id ? (
                 <li key={t.id} className="py-3">

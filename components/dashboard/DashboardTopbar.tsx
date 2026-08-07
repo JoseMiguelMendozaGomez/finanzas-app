@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getInitial } from "@/lib/utils/format";
+import UserAvatarImage from "@/components/ui/UserAvatarImage";
 import type { DashboardUser } from "@/components/dashboard/types";
 
 interface DashboardTopbarProps {
@@ -74,11 +74,13 @@ export default function DashboardTopbar({
           className="flex items-center gap-2.5 pl-1 rounded-xl hover:bg-slate-50 transition-colors"
           aria-label="Ir a tu perfil"
         >
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-sm shrink-0">
-            <span className="text-white text-xs font-bold">
-              {getInitial(user?.name, user?.email)}
-            </span>
-          </div>
+          <UserAvatarImage
+            userId={user?.id}
+            name={user?.name}
+            email={user?.email}
+            avatarUpdatedAt={user?.avatarUpdatedAt}
+            size="sm"
+          />
           <span className="text-slate-700 text-sm font-medium hidden sm:block">
             {user?.name || user?.email || "Usuario"}
           </span>

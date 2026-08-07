@@ -76,7 +76,7 @@ export default function CategoriesView({ categories }: CategoriesViewProps) {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Finanzas App"
+        eyebrow="Inverza"
         title="Categorías"
         description="Organiza y personaliza las categorías de tus ingresos y gastos."
       />

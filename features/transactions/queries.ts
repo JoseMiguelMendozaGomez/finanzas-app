@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma/client";
 import { getDefaultCategories } from "./default-categories";
+import { isHiddenRecurrenceTemplate } from "./recurrence";
 
 type TxType = "INCOME" | "EXPENSE";
 
@@ -15,21 +16,6 @@ export async function getCategories(userId: string, type: TxType) {
   );
 
   return { categories, suggestions };
-}
-
-/**
- * Una transacción recurrente cuya propia fecha de origen fue editada de
- * forma individual (ver editOccurrenceAmountAction) sigue existiendo como
- * "plantilla" para proyectar los meses siguientes, pero esa ocurrencia
- * puntual ya la representa una transacción real independiente — por eso no
- * debe listarse dos veces en el historial plano.
- */
-export function isHiddenRecurrenceTemplate<
-  T extends { isRecurring: boolean; date: Date; excludedDates: Date[] },
->(t: T): boolean {
-  if (!t.isRecurring) return false;
-  const originTime = t.date.getTime();
-  return t.excludedDates.some((d) => d.getTime() === originTime);
 }
 
 export async function getTransactionsByType(userId: string, type: TxType) {

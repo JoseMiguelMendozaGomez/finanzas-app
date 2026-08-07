@@ -34,7 +34,7 @@ export default function RemindersView({ reminders }: RemindersViewProps) {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Finanzas App"
+        eyebrow="Inverza"
         title="Recordatorios"
         description="Tus alertas de pago y fechas financieras importantes."
         actions={[

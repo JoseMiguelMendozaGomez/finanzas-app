@@ -12,7 +12,7 @@ import { getPendingRemindersSummary } from "@/features/reminders/queries";
 import { getProfile } from "@/features/profile/queries";
 
 export const metadata: Metadata = {
-  title: "Dashboard — Finanzas App",
+  title: "Dashboard — Inverza",
   description: "Panel principal de tu gestión financiera personal.",
 };
 

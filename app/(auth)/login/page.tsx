@@ -3,8 +3,8 @@ import AuthLayout from "@/components/auth/AuthLayout";
 import LoginForm from "@/components/auth/LoginForm";
 
 export const metadata: Metadata = {
-  title: "Iniciar sesión — Finanzas App",
-  description: "Accede a tu cuenta de Finanzas App.",
+  title: "Iniciar sesión — Inverza",
+  description: "Accede a tu cuenta de Inverza.",
 };
 
 export default function LoginPage() {

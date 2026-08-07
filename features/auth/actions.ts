@@ -1,15 +1,25 @@
 "use server";
 
+import { randomBytes } from "crypto";
 import { AuthError } from "next-auth";
 import { prisma } from "@/lib/prisma/client";
 import { hashPassword } from "@/lib/auth/password";
 import { signIn, signOut } from "@/lib/auth/config";
-import { loginSchema, registerSchema } from "./schemas";
+import { sendEmail } from "@/lib/email/send";
+import {
+  loginSchema,
+  registerSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+} from "./schemas";
 
 export type ActionState = {
   errors?: Record<string, string[]>;
   message?: string;
+  success?: boolean;
 };
+
+const RESET_TOKEN_TTL_MS = 60 * 60 * 1000; // 1 hora
 
 export async function registerAction(
   _prevState: ActionState,
@@ -110,4 +120,91 @@ export async function loginAction(
   }
 
   return {};
+}
+
+const GENERIC_RESET_MESSAGE =
+  "Si el correo existe en nuestro sistema, te enviamos un enlace para restablecer tu contraseña.";
+
+export async function requestPasswordResetAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const parsed = forgotPasswordSchema.safeParse({
+    email: formData.get("email"),
+  });
+
+  if (!parsed.success) {
+    return { errors: parsed.error.flatten().fieldErrors };
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: parsed.data.email },
+    select: { id: true, hashedPassword: true },
+  });
+
+  // Siempre devolvemos el mismo mensaje exista o no la cuenta, para no
+  // revelar qué correos están registrados.
+  if (user?.hashedPassword) {
+    await prisma.verificationToken.deleteMany({
+      where: { identifier: parsed.data.email },
+    });
+
+    const token = randomBytes(32).toString("hex");
+    await prisma.verificationToken.create({
+      data: {
+        identifier: parsed.data.email,
+        token,
+        expires: new Date(Date.now() + RESET_TOKEN_TTL_MS),
+      },
+    });
+
+    const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}`;
+    await sendEmail({
+      to: parsed.data.email,
+      subject: "Restablecé tu contraseña — Inverza",
+      html: `
+        <p>Recibimos una solicitud para restablecer tu contraseña de Inverza.</p>
+        <p><a href="${resetUrl}">Restablecer contraseña</a></p>
+        <p>Este enlace vence en 1 hora. Si no pediste esto, ignorá este correo — tu contraseña sigue igual.</p>
+      `,
+    });
+  }
+
+  return { success: true, message: GENERIC_RESET_MESSAGE };
+}
+
+export async function resetPasswordAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const parsed = resetPasswordSchema.safeParse({
+    token: formData.get("token"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+  });
+
+  if (!parsed.success) {
+    return { errors: parsed.error.flatten().fieldErrors };
+  }
+
+  const record = await prisma.verificationToken.findUnique({
+    where: { token: parsed.data.token },
+  });
+
+  if (!record || record.expires < new Date()) {
+    return {
+      message: "Este enlace no es válido o ya venció. Solicitá uno nuevo.",
+    };
+  }
+
+  const hashedPassword = await hashPassword(parsed.data.password);
+  await prisma.user.update({
+    where: { email: record.identifier },
+    data: { hashedPassword, failedLoginAttempts: 0, lockedUntil: null },
+  });
+  await prisma.verificationToken.deleteMany({
+    where: { identifier: record.identifier },
+  });
+
+  return { success: true };
 }
