@@ -7,6 +7,7 @@ import NavIcon from "@/components/dashboard/NavIcon";
 import { NAV_ITEMS } from "@/components/dashboard/nav-items";
 import { getInitial } from "@/lib/utils/format";
 import type { DashboardUser } from "@/components/dashboard/types";
+import { logoutAction } from "@/features/auth/actions";
 
 interface SidebarProps {
   /** Controlado desde el layout — si el overlay mobile está abierto */
@@ -83,6 +84,29 @@ export default function Sidebar({ mobileOpen, onClose, user }: SidebarProps) {
               {user?.email || "—"}
             </p>
           </div>
+          <form action={logoutAction} className="shrink-0">
+            <button
+              type="submit"
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-red-500 transition-colors"
+              aria-label="Cerrar sesión"
+              title="Cerrar sesión"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.75}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+            </button>
+          </form>
         </div>
       </div>
     </nav>

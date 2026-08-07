@@ -3,7 +3,7 @@
 import { AuthError } from "next-auth";
 import { prisma } from "@/lib/prisma/client";
 import { hashPassword } from "@/lib/auth/password";
-import { signIn } from "@/lib/auth/config";
+import { signIn, signOut } from "@/lib/auth/config";
 import { loginSchema, registerSchema } from "./schemas";
 
 export type ActionState = {
@@ -58,6 +58,10 @@ export async function registerAction(
   }
 
   return {};
+}
+
+export async function logoutAction() {
+  await signOut({ redirectTo: "/" });
 }
 
 export async function loginAction(
