@@ -35,7 +35,7 @@ export default function LoginForm() {
           labelSuffix={
             <Link
               href="/forgot-password"
-              className="text-xs text-blue-400 hover:text-blue-300 transition-colors duration-200"
+              className="text-xs text-blue-600 hover:text-blue-700 transition-colors duration-200"
             >
               ¿Olvidaste tu contraseña?
             </Link>
@@ -43,7 +43,7 @@ export default function LoginForm() {
         />
 
         {state.message && (
-          <p className="text-sm text-red-400" role="alert">
+          <p className="text-sm text-red-600" role="alert">
             {state.message}
           </p>
         )}
@@ -58,12 +58,12 @@ export default function LoginForm() {
       </form>
 
       {/* Footer del card */}
-      <div className="mt-6 pt-6 border-t border-white/10 text-center">
+      <div className="mt-6 pt-6 border-t border-slate-200 text-center">
         <p className="text-slate-400 text-sm">
           ¿No tienes una cuenta?{" "}
           <Link
             href="/registro"
-            className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200"
+            className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
           >
             Crear una cuenta
           </Link>

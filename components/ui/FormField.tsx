@@ -2,7 +2,7 @@
  * FormField — wrapper de compatibilidad sobre Input.
  *
  * Mantiene la API que ya usan LoginForm y RegisterForm
- * (tema "dark", labelSuffix) sin romper nada.
+ * (labelSuffix) sin romper nada.
  */
 import Input from "@/components/ui/Input";
 
@@ -36,7 +36,7 @@ export default function FormField({
       autoComplete={autoComplete}
       labelSuffix={labelSuffix}
       error={error}
-      theme="dark"
+      theme="light"
     />
   );
 }

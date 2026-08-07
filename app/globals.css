@@ -5,6 +5,42 @@
   --foreground: #171717;
 }
 
+/*
+ * Paleta "Domingo" — reemplazo temporal de la escala blue/slate de Tailwind
+ * por un acorde ciruela + piedra cálida. Al redefinir estos tokens, todo lo
+ * que ya usa las clases bg-blue, text-slate (etc) en el proyecto cambia de
+ * una sola vez. Revertir = borrar este bloque @theme.
+ */
+@theme {
+  --color-blue-50: #faf5f8;
+  --color-blue-100: #f3e7f0;
+  --color-blue-200: #e6cee0;
+  --color-blue-300: #d2a8cb;
+  --color-blue-400: #b87cae;
+  --color-blue-500: #97588d;
+  --color-blue-600: #78406f;
+  --color-blue-700: #5b3358;
+  --color-blue-800: #452743;
+  --color-blue-900: #341d33;
+  --color-blue-950: #200f1e;
+
+  --color-slate-50: #fbf9f5;
+  --color-slate-100: #f5f1e9;
+  --color-slate-200: #e9e3d6;
+  --color-slate-300: #d6cdbc;
+  --color-slate-400: #b3a996;
+  --color-slate-500: #8f8471;
+  --color-slate-600: #7d7568;
+  --color-slate-700: #5e574a;
+  --color-slate-800: #423d34;
+  --color-slate-900: #2b2620;
+  --color-slate-950: #1a1712;
+
+  --radius-lg: 0.625rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.375rem;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -22,5 +58,6 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
 }

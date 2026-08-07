@@ -53,7 +53,7 @@ export default function RegisterForm() {
         />
 
         {state.message && (
-          <p className="text-sm text-red-400" role="alert">
+          <p className="text-sm text-red-600" role="alert">
             {state.message}
           </p>
         )}
@@ -68,12 +68,12 @@ export default function RegisterForm() {
       </form>
 
       {/* Footer del card */}
-      <div className="mt-6 pt-6 border-t border-white/10 text-center">
+      <div className="mt-6 pt-6 border-t border-slate-200 text-center">
         <p className="text-slate-400 text-sm">
           ¿Ya tienes una cuenta?{" "}
           <Link
             href="/login"
-            className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200"
+            className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
           >
             Ya tengo una cuenta
           </Link>

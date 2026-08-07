@@ -34,7 +34,7 @@ function LogoIcon({ size = "md" }: { size?: AppLogoProps["size"] }) {
           />
         </svg>
       </div>
-      <span className={`text-white font-bold ${s.text} tracking-tight`}>
+      <span className={`text-slate-900 font-bold ${s.text} tracking-tight`}>
         Finanzas App
       </span>
     </div>
