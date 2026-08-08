@@ -25,6 +25,7 @@ const features: Record<NavIconName, string[]> = {
   categories:   ["Categorías personalizadas", "Colores e íconos", "Subcategorías", "Estadísticas por categoría"],
   goals:        ["Crear metas de ahorro", "Progreso visual", "Fecha objetivo", "Aportaciones parciales"],
   reminders:    ["Recordatorios de pago", "Frecuencia configurable", "Notificaciones", "Historial de pagos"],
+  reports:      ["Gráficos por categoría", "Tendencia mensual", "Comparativa de ingresos y gastos", "Exportar a PDF"],
   profile:      ["Datos personales", "Cambiar contraseña", "Preferencias", "Cerrar sesión"],
 };
 

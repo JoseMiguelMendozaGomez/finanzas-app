@@ -2,7 +2,7 @@
  * FormField — wrapper de compatibilidad sobre Input.
  *
  * Mantiene la API que ya usan LoginForm y RegisterForm
- * (tema "dark", labelSuffix) sin romper nada.
+ * (labelSuffix) sin romper nada.
  */
 import Input from "@/components/ui/Input";
 
@@ -14,6 +14,8 @@ interface FormFieldProps {
   autoComplete?: string;
   /** Slot derecho junto al label */
   labelSuffix?: React.ReactNode;
+  /** Mensaje de error — activa estilos de error */
+  error?: string;
 }
 
 export default function FormField({
@@ -23,6 +25,7 @@ export default function FormField({
   placeholder,
   autoComplete,
   labelSuffix,
+  error,
 }: FormFieldProps) {
   return (
     <Input
@@ -32,7 +35,8 @@ export default function FormField({
       placeholder={placeholder}
       autoComplete={autoComplete}
       labelSuffix={labelSuffix}
-      theme="dark"
+      error={error}
+      theme="light"
     />
   );
 }

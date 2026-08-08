@@ -3,9 +3,9 @@ import AuthLayout from "@/components/auth/AuthLayout";
 import RegisterForm from "@/components/auth/RegisterForm";
 
 export const metadata: Metadata = {
-  title: "Crear cuenta — Finanzas App",
+  title: "Crear cuenta — Inverza",
   description:
-    "Crea tu cuenta gratuita en Finanzas App y empieza a controlar tus finanzas.",
+    "Crea tu cuenta gratuita en Inverza y empieza a controlar tus finanzas.",
 };
 
 export default function RegistroPage() {

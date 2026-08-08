@@ -1,10 +1,10 @@
-# Finanzas
+# Inverza
 
 Aplicación de gestión de finanzas personales construida con Next.js 16, React 19 y TypeScript.
 
 ## Descripción
 
-Finanzas permite a los usuarios llevar un control completo de su economía personal: registrar transacciones, organizar gastos por categorías, definir metas de ahorro y recibir recordatorios de pagos y vencimientos.
+Inverza permite a los usuarios llevar un control completo de su economía personal: registrar transacciones, organizar gastos por categorías, definir metas de ahorro y recibir recordatorios de pagos y vencimientos.
 
 ## Funcionalidades principales
 

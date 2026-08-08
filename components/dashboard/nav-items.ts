@@ -16,13 +16,15 @@ export type NavIconName =
   | "categories"
   | "goals"
   | "reminders"
+  | "reports"
   | "profile";
 
 export const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard",       href: "/dashboard",      icon: "dashboard"     },
-  { label: "Transacciones",   href: "/transacciones",  icon: "transactions"  },
+  { label: "Resumen",         href: "/resumen",        icon: "transactions"  },
   { label: "Categorías",      href: "/categorias",     icon: "categories"    },
   { label: "Metas de ahorro", href: "/metas",          icon: "goals"         },
   { label: "Recordatorios",   href: "/recordatorios",  icon: "reminders"     },
+  { label: "Reportes",        href: "/reportes",       icon: "reports"       },
   { label: "Perfil",          href: "/perfil",         icon: "profile"       },
 ];

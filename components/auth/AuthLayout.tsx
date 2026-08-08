@@ -19,17 +19,17 @@ export default function AuthLayout({
   subtitle,
 }: AuthLayoutProps) {
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 flex items-center justify-center px-6 py-12 overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-[#F1ECE6] via-[#FBF9F5] to-[#EFE6EC] flex items-center justify-center px-6 py-12 overflow-hidden">
       {/* Círculos decorativos — misma estética que el Hero */}
-      <div className="absolute top-1/3 -left-40 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/3 -right-40 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 -left-40 w-96 h-96 bg-blue-400/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/3 -right-40 w-96 h-96 bg-[#7A8B6F]/15 rounded-full blur-3xl pointer-events-none" />
 
       {/* Patrón de puntos sutil */}
       <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
+        className="absolute inset-0 opacity-30 pointer-events-none"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 1px 1px, rgba(148,163,184,0.4) 1px, transparent 0)",
+            "radial-gradient(circle at 1px 1px, rgba(91,51,88,0.14) 1px, transparent 0)",
           backgroundSize: "40px 40px",
         }}
       />
@@ -38,16 +38,16 @@ export default function AuthLayout({
         {/* Cabecera: logo + título */}
         <div className="text-center mb-8">
           <AppLogo href="/" size="md" />
-          <h1 className="mt-6 text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <h1 className="mt-6 text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
             {title}
           </h1>
-          <p className="mt-2 text-slate-400 text-sm leading-relaxed">
+          <p className="mt-2 text-slate-600 text-sm leading-relaxed">
             {subtitle}
           </p>
         </div>
 
         {/* Contenido del formulario */}
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-8 shadow-xl shadow-slate-900/5">
           {children}
         </div>
 

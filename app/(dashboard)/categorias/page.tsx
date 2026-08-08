@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import UnderConstruction from "@/components/dashboard/UnderConstruction";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth/config";
+import { getAllCategoriesWithCounts } from "@/features/transactions/queries";
+import CategoriesView from "@/components/dashboard/categorias/CategoriesView";
 
 export const metadata: Metadata = {
-  title: "Categorías — Finanzas App",
+  title: "Categorías — Inverza",
   description: "Organiza tus transacciones por categorías personalizadas.",
 };
 
-export default function CategoriasPage() {
-  return (
-    <UnderConstruction
-      title="Categorías"
-      description="Las categorías con las que clasificas tus transacciones"
-      icon="categories"
-      color="violet"
-    />
-  );
+export default async function CategoriasPage() {
+  const session = await auth();
+  if (!session?.user?.id) redirect("/login");
+
+  const categories = await getAllCategoriesWithCounts(session.user.id);
+
+  return <CategoriesView categories={categories} />;
 }

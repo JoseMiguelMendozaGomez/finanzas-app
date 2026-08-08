@@ -5,44 +5,44 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <Navbar />
-      {/* Fondo con gradiente financiero */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900" />
+      {/* Fondo cálido — domingo tranquilo, no hero oscuro */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#F1ECE6] via-[#FBF9F5] to-[#EFE6EC]" />
 
       {/* Patrón de puntos decorativo */}
       <div
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-40"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 1px 1px, rgba(148,163,184,0.4) 1px, transparent 0)",
+            "radial-gradient(circle at 1px 1px, rgba(91,51,88,0.14) 1px, transparent 0)",
           backgroundSize: "40px 40px",
         }}
       />
 
       {/* Círculos decorativos de fondo */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-400/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-[#7A8B6F]/15 rounded-full blur-3xl pointer-events-none" />
 
       {/* Contenido */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-400/30 rounded-full px-4 py-2 mb-8">
-          <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
-          <span className="text-blue-300 text-sm font-medium tracking-wide">
+        <div className="inline-flex items-center gap-2 bg-white/70 border border-blue-200 rounded-full px-4 py-2 mb-8 shadow-sm">
+          <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+          <span className="text-blue-700 text-sm font-medium tracking-wide">
             Gestión financiera personal
           </span>
         </div>
 
         {/* Título */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight mb-6">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 leading-tight tracking-tight mb-6">
           Controla tus{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-[#7A8B6F]">
             finanzas personales
           </span>{" "}
           de forma inteligente
         </h1>
 
         {/* Subtítulo */}
-        <p className="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
           Gestiona ingresos, gastos, metas de ahorro y recordatorios desde una
           sola plataforma.
         </p>
@@ -58,10 +58,10 @@ export default function Hero() {
         </div>
 
         {/* Indicadores de confianza */}
-        <div className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 text-slate-400 text-sm">
+        <div className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 text-slate-600 text-sm">
           <div className="flex items-center gap-2">
             <svg
-              className="w-4 h-4 text-blue-400"
+              className="w-4 h-4 text-blue-600"
               fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -76,7 +76,7 @@ export default function Hero() {
           </div>
           <div className="flex items-center gap-2">
             <svg
-              className="w-4 h-4 text-blue-400"
+              className="w-4 h-4 text-blue-600"
               fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -91,7 +91,7 @@ export default function Hero() {
           </div>
           <div className="flex items-center gap-2">
             <svg
-              className="w-4 h-4 text-blue-400"
+              className="w-4 h-4 text-blue-600"
               fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"

@@ -22,7 +22,7 @@ export default function Footer() {
               />
             </svg>
           </div>
-          <span className="text-white font-semibold">Finanzas App</span>
+          <span className="text-white font-semibold">Inverza</span>
         </div>
 
         {/* Centro */}

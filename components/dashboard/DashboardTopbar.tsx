@@ -1,8 +1,16 @@
+import Link from "next/link";
+import UserAvatarImage from "@/components/ui/UserAvatarImage";
+import type { DashboardUser } from "@/components/dashboard/types";
+
 interface DashboardTopbarProps {
   onMenuClick: () => void;
+  user?: DashboardUser;
 }
 
-export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {
+export default function DashboardTopbar({
+  onMenuClick,
+  user,
+}: DashboardTopbarProps) {
   return (
     <header className="h-14 bg-white border-b border-slate-100 flex items-center px-4 sm:px-6 gap-3 sticky top-0 z-20">
       {/* Botón hamburguesa — solo mobile */}
@@ -35,10 +43,11 @@ export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {
 
       {/* Acciones del header */}
       <div className="flex items-center gap-2">
-        {/* Notificaciones (placeholder) */}
-        <button
-          className="w-9 h-9 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors relative"
-          aria-label="Notificaciones"
+        {/* Recordatorios */}
+        <Link
+          href="/recordatorios"
+          className="w-9 h-9 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
+          aria-label="Ver recordatorios"
         >
           <svg
             className="w-5 h-5"
@@ -54,22 +63,28 @@ export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {
               d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
             />
           </svg>
-          {/* Dot de notificación */}
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-500 rounded-full border-2 border-white" />
-        </button>
+        </Link>
 
         {/* Divider */}
         <div className="w-px h-5 bg-slate-200" />
 
-        {/* Avatar de usuario */}
-        <div className="flex items-center gap-2.5 pl-1">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-sm shrink-0">
-            <span className="text-white text-xs font-bold">U</span>
-          </div>
+        {/* Avatar de usuario → perfil */}
+        <Link
+          href="/perfil"
+          className="flex items-center gap-2.5 pl-1 rounded-xl hover:bg-slate-50 transition-colors"
+          aria-label="Ir a tu perfil"
+        >
+          <UserAvatarImage
+            userId={user?.id}
+            name={user?.name}
+            email={user?.email}
+            avatarUpdatedAt={user?.avatarUpdatedAt}
+            size="sm"
+          />
           <span className="text-slate-700 text-sm font-medium hidden sm:block">
-            Usuario
+            {user?.name || user?.email || "Usuario"}
           </span>
-        </div>
+        </Link>
       </div>
     </header>
   );

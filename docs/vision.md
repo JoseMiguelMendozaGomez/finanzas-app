@@ -1,4 +1,4 @@
-# Finanzas App
+# Inverza
 
 ## Objetivo
 

@@ -34,8 +34,8 @@ function LogoIcon({ size = "md" }: { size?: AppLogoProps["size"] }) {
           />
         </svg>
       </div>
-      <span className={`text-white font-bold ${s.text} tracking-tight`}>
-        Finanzas App
+      <span className={`text-slate-900 font-bold ${s.text} tracking-tight`}>
+        Inverza
       </span>
     </div>
   );
@@ -47,7 +47,7 @@ export default function AppLogo({ href, size = "md" }: AppLogoProps) {
       <Link
         href={href}
         className="inline-flex group hover:opacity-90 transition-opacity duration-200"
-        aria-label="Finanzas App — inicio"
+        aria-label="Inverza — inicio"
       >
         <LogoIcon size={size} />
       </Link>

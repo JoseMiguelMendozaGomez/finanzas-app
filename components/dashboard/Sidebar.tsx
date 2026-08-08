@@ -3,16 +3,20 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import AppLogo from "@/components/ui/AppLogo";
+import UserAvatarImage from "@/components/ui/UserAvatarImage";
 import NavIcon from "@/components/dashboard/NavIcon";
 import { NAV_ITEMS } from "@/components/dashboard/nav-items";
+import type { DashboardUser } from "@/components/dashboard/types";
+import { logoutAction } from "@/features/auth/actions";
 
 interface SidebarProps {
   /** Controlado desde el layout — si el overlay mobile está abierto */
   mobileOpen: boolean;
   onClose: () => void;
+  user?: DashboardUser;
 }
 
-export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
+export default function Sidebar({ mobileOpen, onClose, user }: SidebarProps) {
   const pathname = usePathname();
 
   function isActive(href: string) {
@@ -67,17 +71,44 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
       {/* Footer del sidebar */}
       <div className="px-4 py-4 border-t border-slate-100">
         <div className="flex items-center gap-3 px-2 py-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shrink-0 shadow-sm">
-            <span className="text-white text-xs font-bold">U</span>
-          </div>
+          <UserAvatarImage
+            userId={user?.id}
+            name={user?.name}
+            email={user?.email}
+            avatarUpdatedAt={user?.avatarUpdatedAt}
+            size="sm"
+          />
           <div className="min-w-0">
             <p className="text-sm font-semibold text-slate-800 truncate">
-              Usuario
+              {user?.name || "Usuario"}
             </p>
             <p className="text-xs text-slate-400 truncate">
-              usuario@correo.com
+              {user?.email || "—"}
             </p>
           </div>
+          <form action={logoutAction} className="shrink-0">
+            <button
+              type="submit"
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-red-500 transition-colors"
+              aria-label="Cerrar sesión"
+              title="Cerrar sesión"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.75}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+            </button>
+          </form>
         </div>
       </div>
     </nav>
